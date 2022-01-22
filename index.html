@@ -1,0 +1,70 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+    <script>
+        AFRAME.registerComponent('thumbstick-logging', {
+            init: function () {
+                this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+            },
+            logThumbstick: function (evt) {
+                if (evt.detail.y > 0.95) { console.log("DOWN"); }
+                if (evt.detail.y < -0.95) { console.log("UP"); }
+                if (evt.detail.x < -0.95) { console.log("LEFT"); }
+                if (evt.detail.x > 0.95) { console.log("RIGHT"); }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <a-assets>
+        <img id="agh" src="agh.svg" />
+        <audio id="background" src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav"></audio>
+    </a-assets>
+    <a-scene inspector="https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
+        <!-- Out of the box environment! -->
+        <a-entity environment="preset: starry; gridColor: #adadad;"></a-entity>
+
+        <a-text value="Welcome" color="#FFD500" align="center" position="0 3 -4" scale="1.5 1.5 1.5"></a-text>
+        <a-image src="#agh" position="0 2 -4"></a-image>
+
+        <!-- <a-circle color="#adadad" rotation="-90 0 0" width="10" height="10"></a-plane> -->
+
+
+        <!-- <a-sound src="#background" autoplay="true"></a-sound> -->
+
+
+        <!-- <a-box position="0 1 -1" width="0.1" height="0.1" color="red"></a-box> -->
+
+        <!-- <a-entity tracked-controls
+            oculus-touch-controls
+            hand-controls
+            laser-controls
+            sphere-collider
+            grab
+            throw
+            event-set="_event: grabstart; visible: false"
+            event-set="_event: grabend; visible: true"
+            ></a-entity> -->
+
+
+        <a-entity id="leftController" oculus-touch-controls="hand: left" hand-tracking-controls="hand: left;"
+            hand-controls="left" daydream-controls gearvr-controls magicleap-controls oculus-go-controls
+            oculus-touch-controls vive-controls vive-focus-controls windows-motion-controls
+            generic-tracked-controller-controls grab throw event-set="_event: grabstart; visible: false"
+            event-set="_event: grabend; visible: true"></a-entity>
+
+
+        <a-entity id="rightController" oculus-touch-controls="hand: right" hand-tracking-controls="hand: right;"
+            hand-controls="right" daydream-controls gearvr-controls magicleap-controls oculus-go-controls
+            oculus-touch-controls vive-controls vive-focus-controls windows-motion-controls
+            generic-tracked-controller-controls thumbstick-logging></a-entity>
+
+
+        <a-light type="point" intensity="2" position="2 4 4"></a-light>
+    </a-scene>
+</body>
+
+</html>
